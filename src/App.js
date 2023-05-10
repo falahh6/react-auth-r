@@ -1,8 +1,8 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/homepage";
+import HomePage from "./pages/HomePage";
 import Error from "./pages/Error";
-import Info, { inforLoader } from "./pages/Info";
+import Info from "./pages/Info";
 import Root from "./pages/Root";
 import ParamCheck from "./pages/ParamCheck";
 import Profile from "./pages/Profile";

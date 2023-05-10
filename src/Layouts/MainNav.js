@@ -1,15 +1,30 @@
 import { NavLink } from "react-router-dom";
-
+import styles from "./MainNav.module.css";
 const MainNav = () => {
   return (
     <>
       <header>
-        <ul>
+        <ul className={styles.ul}>
           <li>
-            <NavLink to="/"> Home </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? styles.active : undefined
+              }
+              to="/"
+            >
+              {" "}
+              Home{" "}
+            </NavLink>
           </li>
           <li>
-            <NavLink to="info">Info</NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? styles.active : undefined
+              }
+              to="info"
+            >
+              Info
+            </NavLink>
           </li>
         </ul>
       </header>
