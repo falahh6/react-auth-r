@@ -1,0 +1,24 @@
+.heading {
+    text-align: center;
+    letter-spacing: 1px;
+    color: rgb(108, 108, 108);
+}
+
+.a button {
+    padding: 0.5rem 1rem;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    border-radius: 50px;
+    border: 1px solid rgb(201, 201, 201);
+}
+
+.a button:hover {
+    cursor: pointer;
+    background-color: rgb(186, 186, 186);
+}
+
+.a {
+    text-align: center;
+    text-decoration: none;
+}

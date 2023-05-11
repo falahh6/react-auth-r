@@ -26,6 +26,16 @@ const MainNav = () => {
               Info
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? styles.active : undefined
+              }
+              to="onboarding"
+            >
+              LogIn
+            </NavLink>
+          </li>
         </ul>
       </header>
     </>
