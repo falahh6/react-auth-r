@@ -1,10 +1,13 @@
 import React from "react";
-import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import styles from "./Login.module.css";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store/auth-slice";
+import { redirect } from "react-router-dom";
 const Login = () => {
-  const { loginWithRedirect } = useAuth0();
+  const dispatch = useDispatch();
+  //   const { loginWithRedirect } = useAuth0();
   return (
     <div>
       {/* <h1>Login</h1> */}
@@ -32,40 +35,14 @@ const Login = () => {
             userEmail: values.email,
             userPassword: values.password,
           };
-          axios
-            .get("https://users-6b489-default-rtdb.firebaseio.com/users.json")
-            .then((response) => {
-              const users = response.data;
+          const payload = {
+            userInfo,
+            setSubmitting,
+            resetForm,
+          };
 
-              const existingUser = Object.values(users).find(
-                (user) => user.userEmail === values.email
-              );
-              if (existingUser) {
-                console.log("user already exists!");
-                setSubmitting(false);
-                resetForm();
-                return;
-              } else {
-                axios
-                  .post(
-                    "https://users-6b489-default-rtdb.firebaseio.com/users.json",
-                    userInfo
-                  )
-                  .then((response) => {
-                    console.log(response);
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
-
-                setTimeout(() => {
-                  console.log(JSON.stringify(values, null, 2));
-                  setSubmitting(false);
-                  resetForm();
-                  loginWithRedirect();
-                }, 400);
-              }
-            });
+          dispatch(authActions.login(payload));
+          redirect("/users");
         }}
       >
         {({ isSubmitting }) => (

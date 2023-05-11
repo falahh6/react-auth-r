@@ -1,4 +1,4 @@
-import { useLoaderData, useParams } from "react-router";
+import { useParams } from "react-router";
 
 const ParamCheck = () => {
   const params = useParams();

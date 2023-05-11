@@ -16,3 +16,13 @@
     margin: 1rem;
     letter-spacing: 1px;
 }
+
+.link {
+    text-decoration: none;
+}
+
+.link:hover {
+    color: purple;
+    padding-bottom: 3px;
+    border-bottom: 1px solid purple;
+}

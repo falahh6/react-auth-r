@@ -1,10 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import styles from "./Profile.module.css";
 const Profile = () => {
-  let { isLoading, isAuthenticated } = useAuth0();
+  let { isLoading } = useAuth0();
   const [Users, setUsers] = useState([]);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggenIn);
+  console.log(isLoggedIn);
 
   useEffect(() => {
     axios
@@ -24,32 +28,38 @@ const Profile = () => {
       });
   }, []);
 
-  if (isLoading) {
-    return <p className={styles.statement}>loading...</p>;
-  }
-
-  isAuthenticated = true;
-
   const userlist = Users.map((user) => (
     <li className={styles.userLI} key={user.id}>
       <p>E-Mail : {user.userEmail}</p>
-      <p>Passowrd : {user.userPassword}</p>
+      <p>Password : {user.userPassword}</p>
     </li>
   ));
 
-  return (
-    <>
-      {/* <h1>Users</h1> */}
-      {isAuthenticated && (
+  if (isLoggedIn) {
+    return (
+      <div>
         <p className={styles.statement}>
           User has been successfully authenticated
         </p>
-      )}
-      <hr />
-      <p className={styles.statement}>
-        Below are all the users in the DataBase
-      </p>
-      <ul className={styles.userUL}>{userlist}</ul>
+        <hr />
+        <p className={styles.statement}>
+          Below are all the users in the DataBase
+        </p>
+        <ul className={styles.userUL}>{userlist}</ul>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div>
+        <p className={styles.statement}>
+          Your are not loggedIn -{" "}
+          <NavLink to="/onboarding" className={styles.link}>
+            Click here to login
+          </NavLink>
+        </p>
+      </div>
     </>
   );
 };
