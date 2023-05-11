@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { authActions } from "../store/auth-slice";
 import styles from "./MainNav.module.css";
 const MainNav = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   console.log(isLoggedIn);
 
   const logoutHandler = () => {
     dispatch(authActions.logout());
-    console.log("ok");
+    navigate("/");
   };
 
   return (

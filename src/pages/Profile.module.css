@@ -10,11 +10,22 @@
     margin: auto;
     width: fit-content;
     list-style-type: none;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid black;
+    border-collapse: collapse;
 }
 
 .userLI {
     margin: 1rem;
     letter-spacing: 1px;
+    border: 1px solid black;
+
+}
+
+.td {
+    padding: 0.5rem;
+    border: 1px solid black;
 }
 
 .link {

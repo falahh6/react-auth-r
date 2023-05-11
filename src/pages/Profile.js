@@ -26,10 +26,10 @@ const Profile = () => {
   }, []);
 
   const userlist = Users.map((user) => (
-    <li className={styles.userLI} key={user.id}>
-      <p>E-Mail : {user.userEmail}</p>
-      <p>Password : {user.userPassword}</p>
-    </li>
+    <tr className={styles.userLI} key={user.id}>
+      <td className={styles.td}>{user.userEmail}</td>
+      <td className={styles.td}>{user.userPassword}</td>
+    </tr>
   ));
 
   if (isLoggedIn) {
@@ -42,7 +42,13 @@ const Profile = () => {
         <p className={styles.statement}>
           Below are all the users in the DataBase
         </p>
-        <ul className={styles.userUL}>{userlist}</ul>
+        <table className={styles.userUL}>
+          <tr>
+            <th className={styles.td}>User Email</th>
+            <th className={styles.td}>User Password</th>
+          </tr>
+          {userlist}
+        </table>
       </div>
     );
   }
