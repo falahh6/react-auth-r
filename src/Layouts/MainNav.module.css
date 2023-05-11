@@ -28,7 +28,6 @@
 
 }
 
-
 .ul a.active {
     border-bottom: 1px solid white;
 }
@@ -38,6 +37,19 @@
     flex-direction: row;
 }
 
-.disabled:hover {
-    cursor: not-allowed;
+.button {
+    text-decoration: none;
+    color: white;
+    padding-bottom: 4px;
+    background-color: transparent;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    border: 1px solid transparent;
+    width: fit-content;
+    font-size: 1rem;
+}
+
+.button:hover {
+    border-bottom: 1px solid white;
+    cursor: pointer;
 }

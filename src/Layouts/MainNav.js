@@ -7,6 +7,11 @@ const MainNav = () => {
   const dispatch = useDispatch();
   console.log(isLoggedIn);
 
+  const logoutHandler = () => {
+    dispatch(authActions.logout());
+    console.log("ok");
+  };
+
   return (
     <>
       <header>
@@ -57,12 +62,12 @@ const MainNav = () => {
                   disabled={isLoggedIn}
                   to="onboarding"
                 >
-                  {isLoggedIn ? "Logout" : "Login"}
+                  Login
                 </NavLink>
               ) : (
-                <NavLink onClick={dispatch(authActions.logout())}>
+                <button onClick={logoutHandler} className={styles.button}>
                   Logout
-                </NavLink>
+                </button>
               )}
             </li>
           </div>
