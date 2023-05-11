@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { redirect } from "react-router-dom";
 const authInitialState = {
   isLoggenIn: false,
 };
@@ -45,7 +46,9 @@ const AuthSlice = createSlice({
         });
       state.isLoggenIn = true;
     },
-    logout(state) {},
+    logout(state) {
+      state.isLoggenIn = false;
+    },
   },
 });
 
