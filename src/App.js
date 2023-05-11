@@ -4,7 +4,6 @@ import HomePage from "./pages/HomePage";
 import Error from "./pages/Error";
 import Info from "./pages/Info";
 import Root from "./pages/Root";
-import ParamCheck from "./pages/ParamCheck";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 function App() {
@@ -25,10 +24,6 @@ function App() {
         {
           path: "/info",
           element: <Info />,
-        },
-        {
-          path: "/:eID",
-          element: <ParamCheck />,
         },
         {
           path: "users",

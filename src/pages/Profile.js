@@ -1,14 +1,11 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styles from "./Profile.module.css";
 const Profile = () => {
-  let { isLoading } = useAuth0();
   const [Users, setUsers] = useState([]);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggenIn);
-  console.log(isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
     axios

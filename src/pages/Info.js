@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./Info.module.css";
+import RequireAuth from "../store/RequireAuth";
 const Info = () => {
   return (
     <>
@@ -11,4 +12,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default RequireAuth(Info);

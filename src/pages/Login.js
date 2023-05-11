@@ -1,18 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import styles from "./Login.module.css";
-// import { useAuth0 } from "@auth0/auth0-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth-slice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //   const { loginWithRedirect } = useAuth0();;
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
     <div>
-      {/* <h1>Login</h1> */}
       <Formik
         initialValues={{ email: "", password: "" }}
         validate={(values) => {
