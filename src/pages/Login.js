@@ -1,13 +1,15 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import styles from "./Login.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth-slice";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <div>
       <Formik
@@ -89,6 +91,10 @@ const Login = () => {
           </Form>
         )}
       </Formik>
+
+      <p className={styles.statement}>
+        new to hexa.co ? <NavLink to="/onboarding"> register now </NavLink>{" "}
+      </p>
     </div>
   );
 };

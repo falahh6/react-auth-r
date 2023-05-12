@@ -6,6 +6,7 @@ import Info from "./pages/Info";
 import Root from "./pages/Root";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import RegisterUser from "./pages/RegisterUser";
 function App() {
   const router = createBrowserRouter([
     {
@@ -19,10 +20,14 @@ function App() {
         },
         {
           path: "onboarding",
+          element: <RegisterUser />,
+        },
+        {
+          path: "login-user",
           element: <Login />,
         },
         {
-          path: "/info",
+          path: "info",
           element: <Info />,
         },
         {

@@ -1,12 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { authActions } from "../store/auth-slice";
 import styles from "./MainNav.module.css";
 const MainNav = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
   console.log(isLoggedIn);
+
+  if (location.pathname === "login-user") {
+    const navname = "register";
+  }
 
   const logoutHandler = () => {
     dispatch(authActions.logout());
@@ -61,7 +67,7 @@ const MainNav = () => {
                     isActive ? styles.active : undefined
                   }
                   disabled={isLoggedIn}
-                  to="onboarding"
+                  to="login-user"
                 >
                   Login
                 </NavLink>

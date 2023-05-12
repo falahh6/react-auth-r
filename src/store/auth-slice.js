@@ -16,7 +16,7 @@ const AuthSlice = createSlice({
           const users = response.data;
 
           const existingUser = Object.values(users).find(
-            (user) => user.userEmail === userInfo.userEmail // userInfo.userEmail
+            (user) => user.userEmail === userInfo.userEmail
           );
           if (existingUser) {
             console.log("user already exists!");

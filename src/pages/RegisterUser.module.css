@@ -14,7 +14,7 @@
     margin: auto;
     padding: 1rem;
     border-radius: 0.6rem;
-    margin-top: 8rem;
+    margin-top: 6rem;
 }
 
 .formGroup {
@@ -67,8 +67,4 @@
     margin-top: 4rem;
     font-weight: bolder;
     color: rgb(98, 98, 98);
-}
-
-.statement a {
-    text-decoration: none;
 }
