@@ -1,5 +1,11 @@
+import styles from "./Error.module.css";
+
 const error = () => {
-  return <h1>404 | Error</h1>;
+  return (
+    <div className={styles.error}>
+      <h3>404 | Error</h3>
+    </div>
+  );
 };
 
 export default error;

@@ -14,7 +14,7 @@
     margin: auto;
     padding: 1rem;
     border-radius: 0.6rem;
-    margin-top: 6rem;
+    margin-top: 4rem;
 }
 
 .formGroup {
@@ -36,6 +36,7 @@
     border: 1px solid #ccc;
     width: 95%;
     font-size: 14px;
+    outline: none;
 }
 
 .formError {
@@ -67,4 +68,29 @@
     margin-top: 4rem;
     font-weight: bolder;
     color: rgb(98, 98, 98);
+}
+
+/* 
+.icon {
+    position: relative;
+    top: -1.5rem;
+    right: -9rem;
+    color: rgb(56, 56, 56);
+} */
+.customPasswordField {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    width: 98%;
+}
+
+.customPasswordField input {
+    border: none;
+    outline: none;
+}
+
+.customPasswordField svg {
+    margin-right: 0.5rem;
+    color: rgb(60, 60, 60);
 }

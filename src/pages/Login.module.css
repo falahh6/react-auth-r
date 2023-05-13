@@ -72,3 +72,21 @@
 .statement a {
     text-decoration: none;
 }
+
+.customPasswordField {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    width: 98%;
+}
+
+.customPasswordField input {
+    border: none;
+    outline: none;
+}
+
+.customPasswordField svg {
+    margin-right: 0.5rem;
+    color: rgb(60, 60, 60);
+}

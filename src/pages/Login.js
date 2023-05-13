@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import styles from "./Login.module.css";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth-slice";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  const [shownPassword, setShownPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShownPassword((shownPassword) => !shownPassword);
+  };
 
   return (
     <div>
@@ -62,18 +67,21 @@ const Login = () => {
               />
             </div>
             <div className={styles.formGroup}>
-              <label
-                style={{ marginBottom: "8px" }}
-                className={styles.labels}
-                htmlFor="password"
-              >
-                Enter your Password :{" "}
+              <label className={styles.labels} htmlFor="password">
+                Set the Password :{" "}
               </label>
-              <Field
-                className={styles.formControl}
-                type="password"
-                name="password"
-              />
+              <div className={styles.customPasswordField}>
+                <Field
+                  className={styles.formControl}
+                  name="password"
+                  type={shownPassword ? "text" : "password"}
+                />
+                <FontAwesomeIcon
+                  className={styles.icon}
+                  onClick={toggleShowPassword}
+                  icon={shownPassword ? faEyeSlash : faEye}
+                />
+              </div>
               <ErrorMessage
                 className={styles.formError}
                 name="password"
