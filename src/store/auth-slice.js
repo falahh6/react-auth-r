@@ -30,26 +30,23 @@ const AuthSlice = createSlice({
         .get("https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json")
         .then((response) => {
           const users = response.data;
-
           const existingUser = Object.values(users).find(
-            (user) => user.userEmail === userInfo.userEmail
+            (user) =>
+              user.userEmail === userInfo.userEmail &&
+              user.userPassword === userInfo.userPassword
           );
           if (existingUser) {
-            console.log("user authenticated");
-            return {
-              ...state,
-              isLoggedIn: true,
-            };
+            resetForm();
+            console.log(" authenticated");
           } else {
             console.log("user not found");
+            setSubmitting(false);
+            resetForm();
             return;
           }
-        })
-        .then(() => {
-          state.isLoggedIn = true;
-          setSubmitting(false);
-          resetForm();
         });
+      state.isLoggedIn = true;
+      console.log("user authenticated");
     },
     logout(state) {
       state.isLoggedIn = false;

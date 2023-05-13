@@ -52,7 +52,7 @@ const RegisterUser = () => {
 
           return errors;
         }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { setSubmitting, resetForm, navigate }) => {
           // console.log(values);
 
           const userInfo = {
@@ -66,8 +66,9 @@ const RegisterUser = () => {
             dispatch(authActions.registerUser(userInfo));
             setSubmitting(false);
             resetForm();
-            navigate("/");
           }, 400);
+
+          navigate("/");
         }}
       >
         {({ isSubmitting }) => (
