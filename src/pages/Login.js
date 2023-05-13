@@ -6,6 +6,7 @@ import { authActions } from "../store/auth-slice";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,6 +18,9 @@ const Login = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
       <Formik
         initialValues={{ email: "", password: "" }}
         validate={(values) => {
@@ -48,9 +52,9 @@ const Login = () => {
           };
 
           dispatch(authActions.login(payload));
-          setTimeout(() => {
-            navigate("/users");
-          }, 200);
+          // setTimeout(() => {
+          //   navigate("/users");
+          // }, 200);
         }}
       >
         {({ isSubmitting }) => (

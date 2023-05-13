@@ -3,8 +3,14 @@ import { useState } from "react";
 import styles from "./RegisterUser.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store/auth-slice";
+import { useNavigate } from "react-router";
 const RegisterUser = () => {
   const [shownPassword, setShownPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleShowPassword = () => {
     setShownPassword((shownPassword) => !shownPassword);
@@ -12,6 +18,9 @@ const RegisterUser = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Register</title>
+      </Helmet>
       <Formik
         initialValues={{ name: "", email: "", password1: "", password2: "" }}
         validate={(values) => {
@@ -44,11 +53,21 @@ const RegisterUser = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          console.log(values);
+          // console.log(values);
+
+          const userInfo = {
+            userName: values.name,
+            userEmail: values.email,
+            userPassword: values.password1,
+            userId: new Date().toUTCString,
+          };
+
           setTimeout(() => {
+            dispatch(authActions.registerUser(userInfo));
             setSubmitting(false);
             resetForm();
-          }, 200);
+            navigate("/");
+          }, 400);
         }}
       >
         {({ isSubmitting }) => (
@@ -57,7 +76,12 @@ const RegisterUser = () => {
               <label className={styles.labels} htmlFor="name">
                 Enter your Name :{" "}
               </label>
-              <Field className={styles.formControl} type="text" name="name" />
+              <Field
+                autoComplete="name"
+                className={styles.formControl}
+                type="text"
+                name="name"
+              />
               <ErrorMessage
                 className={styles.formError}
                 name="name"
@@ -68,7 +92,12 @@ const RegisterUser = () => {
               <label className={styles.labels} htmlFor="email">
                 Enter your e-mail :{" "}
               </label>
-              <Field className={styles.formControl} type="email" name="email" />
+              <Field
+                autoComplete="email"
+                className={styles.formControl}
+                type="email"
+                name="email"
+              />
               <ErrorMessage
                 className={styles.formError}
                 name="email"
@@ -88,7 +117,7 @@ const RegisterUser = () => {
                 <FontAwesomeIcon
                   className={styles.icon}
                   onClick={toggleShowPassword}
-                  icon={shownPassword ? faEyeSlash : faEye}
+                  icon={shownPassword ? faEye : faEyeSlash}
                 />
               </div>
               <ErrorMessage
