@@ -18,3 +18,13 @@ const RequireAuth = () => {
 };
 
 export default RequireAuth;
+
+
+  let navname;
+  if (location.pathname === "login-user") {
+    navname = "register";
+  } else if (location.pathname === "onboarding") {
+    navname = "login";
+  }
+
+  console.log(navname);
