@@ -4,13 +4,13 @@ import styles from "./RegisterUser.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth-slice";
-import { useNavigate } from "react-router";
 const RegisterUser = () => {
   const [shownPassword, setShownPassword] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log(isLoggedIn);
 
   const toggleShowPassword = () => {
     setShownPassword((shownPassword) => !shownPassword);
@@ -62,13 +62,12 @@ const RegisterUser = () => {
             userId: new Date().toUTCString,
           };
 
+          dispatch(authActions.registerUser(userInfo));
           setTimeout(() => {
-            dispatch(authActions.registerUser(userInfo));
             setSubmitting(false);
             resetForm();
+            navigate("/");
           }, 400);
-
-          navigate("/");
         }}
       >
         {({ isSubmitting }) => (

@@ -1,53 +1,27 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Helmet } from "react-helmet";
-import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styles from "./Profile.module.css";
 const Profile = () => {
-  const [Users, setUsers] = useState([]);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const { isAuthenticated, user } = useAuth0();
 
-  useEffect(() => {
-    axios
-      .get("https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json")
-      .then((response) => {
-        const fetchedUsers = [];
-        for (let key in response.data) {
-          fetchedUsers.push({
-            ...response.data[key],
-            id: key,
-          });
-        }
-        setUsers(fetchedUsers);
-      })
-      .catch((error) => {
-        console.log("error fetching users" + error);
-      });
-  }, []);
-
-  const userlist = Users.map((user) => (
-    <li className={styles.profileCard} key={user.userPassword}>
-      <p>Name : {user.userName}</p>
-      <p>Email : {user.userEmail}</p>
-    </li>
-  ));
-
-  if (isLoggedIn) {
+  if (isAuthenticated) {
     return (
       <>
         <Helmet>
           <title>Profile</title>
         </Helmet>
         <div>
-          {/* <p className={styles.statement}>
-            User has been successfully authenticated
-          </p>
-          <hr /> */}
           <p className={styles.statement}>
             Below are all the users in the Data Base
           </p>
-          <ul className={styles.profilesDoc}>{userlist}</ul>
+          <ul className={styles.profilesDoc}>
+            <div>
+              <img src={user.picture} alt={user.name} />
+              <h2>{user.name}</h2>
+              <p>{user.email}</p>
+            </div>
+          </ul>
         </div>
       </>
     );

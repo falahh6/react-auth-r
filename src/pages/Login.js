@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import styles from "./Login.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth-slice";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +10,8 @@ import { Helmet } from "react-helmet";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log(isLoggedIn);
   const [shownPassword, setShownPassword] = useState(false);
 
   const toggleShowPassword = () => {
@@ -52,9 +54,9 @@ const Login = () => {
           };
 
           dispatch(authActions.login(payload));
-          // setTimeout(() => {
-          //   navigate("/users");
-          // }, 200);
+          setTimeout(() => {
+            navigate("/");
+          }, 400);
         }}
       >
         {({ isSubmitting }) => (
