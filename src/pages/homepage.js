@@ -7,7 +7,7 @@ const HomePage = () => {
       <Helmet>
         <title>Home</title>
       </Helmet>
-      <h1 className={styles.heading}>The Landing Page</h1>;
+      <h1 className={styles.heading}>The Landing Page</h1>
     </>
   );
 };
