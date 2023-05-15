@@ -24,29 +24,28 @@ const AuthSlice = createSlice({
 
       state.isLoggedIn = true;
     },
-    login(state, action) {
+    login: async (state, action) => {
       const { userInfo, setSubmitting, resetForm } = action.payload;
-      axios
-        .get("https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json")
-        .then((response) => {
-          const users = response.data;
-          const existingUser = Object.values(users).find(
-            (user) =>
-              user.userEmail === userInfo.userEmail &&
-              user.userPassword === userInfo.userPassword
-          );
-          if (existingUser) {
-            resetForm();
-            console.log(" authenticated");
-          } else {
-            console.log("user not found");
-            setSubmitting(false);
-            resetForm();
-            return;
-          }
-        });
-      state.isLoggedIn = true;
-      console.log("user authenticated");
+      const { userEmail, userPassword } = userInfo;
+      const response = await axios.get(
+        "https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json"
+      );
+      let fetchedUsers = response.data;
+
+      const user = Object.values(fetchedUsers).find(
+        (u) => u.userEmail === userEmail && u.userPassword === userPassword
+      );
+
+      if (user) {
+        state.isLoggedIn = true;
+        console.log(state.isLoggedIn);
+        console.log("authenticated");
+        console.log("yes");
+        setSubmitting(false);
+        resetForm();
+      } else {
+        console.log("no");
+      }
     },
     logout(state) {
       state.isLoggedIn = false;
