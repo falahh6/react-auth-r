@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import styles from "./Login.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store/auth-slice";
+import { login } from "../store/auth-slice";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -47,15 +47,19 @@ const Login = () => {
             userEmail: values.email,
             userPassword: values.password,
           };
-          const payload = {
-            userInfo,
-            setSubmitting,
-            resetForm,
-          };
 
-          dispatch(authActions.login(payload));
+          dispatch(login(userInfo))
+            .unwrap()
+            .then(() => {
+              navigate("/");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+
           setTimeout(() => {
-            navigate("/");
+            setSubmitting(false);
+            resetForm();
           }, 400);
         }}
       >

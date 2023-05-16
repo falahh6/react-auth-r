@@ -1,8 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 const authInitialState = {
   isLoggedIn: false,
 };
+
+export const login = createAsyncThunk("authslice/login", async (userInfo) => {
+  const response = await axios.get(
+    "https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json"
+  );
+  const fetchedUsers = response.data;
+  console.log("user fetched");
+  console.log(Object.values(fetchedUsers));
+  console.log(userInfo.userEmail);
+  const user = Object.values(fetchedUsers).find(
+    (u) =>
+      u.userEmail === userInfo.userEmail &&
+      u.userPassword === userInfo.userPassword
+  );
+  console.log("user checked");
+  if (user) {
+    return true;
+  } else {
+    throw new Error("Authentication Failed!");
+  }
+});
 
 const AuthSlice = createSlice({
   name: "authslice",
@@ -24,32 +45,19 @@ const AuthSlice = createSlice({
 
       state.isLoggedIn = true;
     },
-    login: async (state, action) => {
-      const { userInfo, setSubmitting, resetForm } = action.payload;
-      const { userEmail, userPassword } = userInfo;
-      const response = await axios.get(
-        "https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json"
-      );
-      let fetchedUsers = response.data;
-
-      const user = Object.values(fetchedUsers).find(
-        (u) => u.userEmail === userEmail && u.userPassword === userPassword
-      );
-
-      if (user) {
-        state.isLoggedIn = true;
-        console.log(state.isLoggedIn);
-        console.log("authenticated");
-        console.log("yes");
-        setSubmitting(false);
-        resetForm();
-      } else {
-        console.log("no");
-      }
-    },
     logout(state) {
       state.isLoggedIn = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.fulfilled, (state) => {
+        state.isLoggedIn = true;
+        console.log("Authenticated!");
+      })
+      .addCase(login.rejected, (state, action) => {
+        console.log(action.error.message);
+      });
   },
 });
 

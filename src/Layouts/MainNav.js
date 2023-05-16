@@ -1,14 +1,22 @@
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { authActions } from "../store/auth-slice";
 import styles from "./MainNav.module.css";
 const MainNav = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  // const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
+  const logoutHandler = () => {
+    dispatch(authActions.logout());
+    console.log("logged Out");
+  };
 
   return (
     <>
       <header>
         <ul className={styles.ul}>
-          {isAuthenticated && (
+          {isLoggedIn && (
             <div className={styles.navGroup}>
               <li>
                 <NavLink
@@ -45,7 +53,7 @@ const MainNav = () => {
             </div>
           )}
           <div>
-            <li>
+            {/* <li>
               {!isAuthenticated ? (
                 <button
                   className={styles.button}
@@ -63,6 +71,22 @@ const MainNav = () => {
                   }
                   className={styles.button}
                 >
+                  Logout
+                </button>
+              )}
+            </li> */}
+            <li>
+              {!isLoggedIn ? (
+                <NavLink
+                  to="/login-user"
+                  className={({ isActive }) =>
+                    isActive ? styles.active : undefined
+                  }
+                >
+                  login
+                </NavLink>
+              ) : (
+                <button onClick={logoutHandler} className={styles.button}>
                   Logout
                 </button>
               )}
