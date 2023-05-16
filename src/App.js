@@ -5,8 +5,8 @@ import Error from "./pages/Error";
 import Info from "./pages/Info";
 import Root from "./pages/Root";
 import Profile from "./pages/Profile";
-import Login from "./pages/Login";
 import RegisterUser from "./pages/RegisterUser";
+import Login from "./pages/Login";
 function App() {
   const router = createBrowserRouter([
     {

@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 import styles from "./Profile.module.css";
 const Profile = () => {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, loginWithRedirect } = useAuth0();
 
   if (isAuthenticated) {
     return (
@@ -32,7 +32,7 @@ const Profile = () => {
       <div>
         <p className={styles.statement}>
           Your are not loggedIn -{" "}
-          <NavLink to="/login-user" className={styles.link}>
+          <NavLink onClick={() => loginWithRedirect()} className={styles.link}>
             Click here to login
           </NavLink>
         </p>
