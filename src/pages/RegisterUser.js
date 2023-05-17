@@ -6,9 +6,11 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth-slice";
+import { useNavigate, redirect } from "react-router";
 const RegisterUser = () => {
   const [shownPassword, setShownPassword] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   console.log(isLoggedIn);
 
@@ -52,7 +54,7 @@ const RegisterUser = () => {
 
           return errors;
         }}
-        onSubmit={(values, { setSubmitting, resetForm, navigate }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           // console.log(values);
 
           const userInfo = {
@@ -64,9 +66,9 @@ const RegisterUser = () => {
 
           dispatch(authActions.registerUser(userInfo));
           setTimeout(() => {
+            navigate("/");
             setSubmitting(false);
             resetForm();
-            navigate("/");
           }, 400);
         }}
       >

@@ -2,6 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 const authInitialState = {
   isLoggedIn: false,
+  errors: {
+    email: "",
+    password: "",
+  },
 };
 
 export const login = createAsyncThunk("authslice/login", async (userInfo) => {
@@ -9,19 +13,17 @@ export const login = createAsyncThunk("authslice/login", async (userInfo) => {
     "https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json"
   );
   const fetchedUsers = response.data;
-  console.log("user fetched");
-  console.log(Object.values(fetchedUsers));
-  console.log(userInfo.userEmail);
   const user = Object.values(fetchedUsers).find(
     (u) =>
       u.userEmail === userInfo.userEmail &&
       u.userPassword === userInfo.userPassword
   );
+
   console.log("user checked");
   if (user) {
     return true;
   } else {
-    throw new Error("Authentication Failed!");
+    throw new Error("InValid Credentials");
   }
 });
 

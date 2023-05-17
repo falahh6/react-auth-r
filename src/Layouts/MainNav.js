@@ -1,19 +1,25 @@
 // import { useAuth0 } from "@auth0/auth0-react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { authActions } from "../store/auth-slice";
+import Loader from "../utils/Loader";
 import styles from "./MainNav.module.css";
 const MainNav = () => {
   // const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
+  const [Loading, setLoading] = useState(false);
   const logoutHandler = () => {
+    setLoading(true);
     dispatch(authActions.logout());
     console.log("logged Out");
+    setLoading(false);
   };
 
   return (
     <>
+      {Loading && <Loader />}
       <header>
         <ul className={styles.ul}>
           {isLoggedIn && (

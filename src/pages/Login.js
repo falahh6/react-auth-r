@@ -7,12 +7,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
+import Loader from "../utils/Loader";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  console.log(isLoggedIn);
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // const errors = useSelector((state) => state.auth.errors);
   const [shownPassword, setShownPassword] = useState(false);
+  const [loggingIn, setLoggingIn] = useState(false);
 
   const toggleShowPassword = () => {
     setShownPassword((shownPassword) => !shownPassword);
@@ -58,8 +60,10 @@ const Login = () => {
             });
 
           setTimeout(() => {
+            setLoggingIn(true);
             setSubmitting(false);
             resetForm();
+            setLoggingIn(false);
           }, 400);
         }}
       >
@@ -109,7 +113,7 @@ const Login = () => {
           </Form>
         )}
       </Formik>
-
+      {loggingIn && <Loader />}
       <p className={styles.statement}>
         new to hexa.co ? <NavLink to="/onboarding"> register now </NavLink>{" "}
       </p>
