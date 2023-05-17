@@ -6,7 +6,10 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth-slice";
-import { useNavigate, redirect } from "react-router";
+import { useNavigate } from "react-router";
+// import PageAnimations from "../utils/PageAnimations";
+import { AnimatePresence, motion } from "framer-motion";
+
 const RegisterUser = () => {
   const [shownPassword, setShownPassword] = useState(false);
   const dispatch = useDispatch();
@@ -19,141 +22,148 @@ const RegisterUser = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>Register</title>
-      </Helmet>
-      <Formik
-        initialValues={{ name: "", email: "", password1: "", password2: "" }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.name) {
-            errors.name = "Required";
-          } else if (!values.name > 4) {
-            errors.name = "Enter your correct name";
-          }
-          if (!values.email) {
-            errors.email = "Required";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-          ) {
-            errors.email = "Invalid email address";
-          }
-
-          if (!values.password1) {
-            errors.password1 = "Required";
-          } else if (values.password1.length < 8) {
-            errors.password1 = "Password length must be > 8";
-          }
-
-          if (!values.password2) {
-            errors.password2 = "Required";
-          } else if (!(values.password2 === values.password1)) {
-            errors.password2 = "Password doesn't match";
-          }
-
-          return errors;
-        }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          // console.log(values);
-
-          const userInfo = {
-            userName: values.name,
-            userEmail: values.email,
-            userPassword: values.password1,
-            userId: new Date().toUTCString,
-          };
-
-          dispatch(authActions.registerUser(userInfo));
-          setTimeout(() => {
-            navigate("/");
-            setSubmitting(false);
-            resetForm();
-          }, 400);
-        }}
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 1 }}
       >
-        {({ isSubmitting }) => (
-          <Form className={styles.formContainer}>
-            <div className={styles.formGroup}>
-              <label className={styles.labels} htmlFor="name">
-                Enter your Name :{" "}
-              </label>
-              <Field
-                autoComplete="name"
-                className={styles.formControl}
-                type="text"
-                name="name"
-              />
-              <ErrorMessage
-                className={styles.formError}
-                name="name"
-                component="div"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.labels} htmlFor="email">
-                Enter your e-mail :{" "}
-              </label>
-              <Field
-                autoComplete="email"
-                className={styles.formControl}
-                type="email"
-                name="email"
-              />
-              <ErrorMessage
-                className={styles.formError}
-                name="email"
-                component="div"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.labels} htmlFor="password1">
-                Set the Password :{" "}
-              </label>
-              <div className={styles.customPasswordField}>
+        <Helmet>
+          <title>Register</title>
+        </Helmet>
+        <Formik
+          initialValues={{ name: "", email: "", password1: "", password2: "" }}
+          validate={(values) => {
+            const errors = {};
+            if (!values.name) {
+              errors.name = "Required";
+            } else if (!values.name > 4) {
+              errors.name = "Enter your correct name";
+            }
+            if (!values.email) {
+              errors.email = "Required";
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+              errors.email = "Invalid email address";
+            }
+
+            if (!values.password1) {
+              errors.password1 = "Required";
+            } else if (values.password1.length < 8) {
+              errors.password1 = "Password length must be > 8";
+            }
+
+            if (!values.password2) {
+              errors.password2 = "Required";
+            } else if (!(values.password2 === values.password1)) {
+              errors.password2 = "Password doesn't match";
+            }
+
+            return errors;
+          }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            // console.log(values);
+
+            const userInfo = {
+              userName: values.name,
+              userEmail: values.email,
+              userPassword: values.password1,
+              userId: new Date().toUTCString,
+            };
+
+            dispatch(authActions.registerUser(userInfo));
+            setTimeout(() => {
+              navigate("/");
+              setSubmitting(false);
+              resetForm();
+            }, 400);
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form className={styles.formContainer}>
+              <div className={styles.formGroup}>
+                <label className={styles.labels} htmlFor="name">
+                  Enter your Name :{" "}
+                </label>
                 <Field
+                  autoComplete="name"
                   className={styles.formControl}
-                  name="password1"
-                  type={shownPassword ? "text" : "password"}
+                  type="text"
+                  name="name"
                 />
-                <FontAwesomeIcon
-                  className={styles.icon}
-                  onClick={toggleShowPassword}
-                  icon={shownPassword ? faEye : faEyeSlash}
+                <ErrorMessage
+                  className={styles.formError}
+                  name="name"
+                  component="div"
                 />
               </div>
-              <ErrorMessage
-                className={styles.formError}
-                name="password1"
-                component="div"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.labels} htmlFor="password2">
-                Confirm your Password :{" "}
-              </label>
-              <Field
-                className={styles.formControl}
-                type="password"
-                name="password2"
-              />
-              <ErrorMessage
-                className={styles.formError}
-                name="password2"
-                component="div"
-              />
-            </div>
-            <button
-              className={styles.submitButton}
-              type="submit"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </>
+              <div className={styles.formGroup}>
+                <label className={styles.labels} htmlFor="email">
+                  Enter your e-mail :{" "}
+                </label>
+                <Field
+                  autoComplete="email"
+                  className={styles.formControl}
+                  type="email"
+                  name="email"
+                />
+                <ErrorMessage
+                  className={styles.formError}
+                  name="email"
+                  component="div"
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label className={styles.labels} htmlFor="password1">
+                  Set the Password :{" "}
+                </label>
+                <div className={styles.customPasswordField}>
+                  <Field
+                    className={styles.formControl}
+                    name="password1"
+                    type={shownPassword ? "text" : "password"}
+                  />
+                  <FontAwesomeIcon
+                    className={styles.icon}
+                    onClick={toggleShowPassword}
+                    icon={shownPassword ? faEye : faEyeSlash}
+                  />
+                </div>
+                <ErrorMessage
+                  className={styles.formError}
+                  name="password1"
+                  component="div"
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label className={styles.labels} htmlFor="password2">
+                  Confirm your Password :{" "}
+                </label>
+                <Field
+                  className={styles.formControl}
+                  type="password"
+                  name="password2"
+                />
+                <ErrorMessage
+                  className={styles.formError}
+                  name="password2"
+                  component="div"
+                />
+              </div>
+              <button
+                className={styles.submitButton}
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

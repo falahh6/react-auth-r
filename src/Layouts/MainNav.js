@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { authActions } from "../store/auth-slice";
 import Loader from "../utils/Loader";
 import styles from "./MainNav.module.css";
+
 const MainNav = () => {
   // const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -58,6 +59,13 @@ const MainNav = () => {
               </li>
             </div>
           )}
+          {/* <li>
+            <DarkModeToggle
+              onChange={setIsDarkMode}
+              checked={isDarkMode}
+              size={50}
+            />
+          </li> */}
           <div>
             {/* <li>
               {!isAuthenticated ? (
@@ -81,6 +89,7 @@ const MainNav = () => {
                 </button>
               )}
             </li> */}
+
             <li>
               {!isLoggedIn ? (
                 <NavLink
