@@ -2,10 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 const authInitialState = {
   isLoggedIn: false,
-  errors: {
-    email: "",
-    password: "",
-  },
+  error: "",
 };
 
 export const login = createAsyncThunk("authslice/login", async (userInfo) => {
@@ -59,6 +56,7 @@ const AuthSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         console.log(action.error.message);
+        state.error = "Invalid Credentials";
       });
   },
 });

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import styles from "./Login.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/auth-slice";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +15,8 @@ const Login = ({ show }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  // const errors = useSelector((state) => state.auth.errors);
+  const error = useSelector((state) => state.auth.error);
+  const [showError, setShowError] = useState(false);
   const [shownPassword, setShownPassword] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
 
@@ -63,17 +64,18 @@ const Login = ({ show }) => {
               .unwrap()
               .then(() => {
                 navigate("/");
+                setLoggingIn(true);
+                setSubmitting(false);
+                resetForm();
+                setLoggingIn(false);
               })
               .catch((error) => {
                 console.log(error);
+                setSubmitting(false);
+                setShowError(true);
               });
 
-            setTimeout(() => {
-              setLoggingIn(true);
-              setSubmitting(false);
-              resetForm();
-              setLoggingIn(false);
-            }, 400);
+            // setTimeout(() => {}, 400);
           }}
         >
           {({ isSubmitting }) => (
@@ -114,6 +116,7 @@ const Login = ({ show }) => {
                   name="password"
                   component="div"
                 />
+                {showError && <div className={styles.error}>{error}</div>}
               </div>
 
               <button
