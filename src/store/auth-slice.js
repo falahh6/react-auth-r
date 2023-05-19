@@ -20,16 +20,24 @@ export const login = createAsyncThunk("authslice/login", async (userInfo) => {
   if (user) {
     return true;
   } else {
-    throw new Error("InValid Credentials");
+    throw new Error("Invalid Credentials");
   }
 });
 
-const AuthSlice = createSlice({
-  name: "authslice",
-  initialState: authInitialState,
-  reducers: {
-    registerUser(state, action) {
-      const userInfo = action.payload;
+export const register = createAsyncThunk(
+  "authslice/register",
+  async (userInfo) => {
+    const response = await axios.get(
+      "https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json"
+    );
+    const fetchedUsers = response.data;
+    const userEmailUsed = Object.values(fetchedUsers).find(
+      (u) => u.userEmail === userInfo.userEmail
+    );
+
+    if (userEmailUsed) {
+      throw new Error("Email already used");
+    } else {
       axios
         .post(
           "https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json",
@@ -41,9 +49,14 @@ const AuthSlice = createSlice({
         .catch((error) => {
           console.log(error);
         });
+    }
+  }
+);
 
-      state.isLoggedIn = true;
-    },
+const AuthSlice = createSlice({
+  name: "authslice",
+  initialState: authInitialState,
+  reducers: {
     logout(state) {
       state.isLoggedIn = false;
     },
@@ -57,6 +70,14 @@ const AuthSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         console.log(action.error.message);
         state.error = "Invalid Credentials";
+      })
+      .addCase(register.fulfilled, (state) => {
+        state.isLoggedIn = true;
+        console.log("Registered and logged in");
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.error = "email already exist";
+        console.log(action.error.message);
       });
   },
 });

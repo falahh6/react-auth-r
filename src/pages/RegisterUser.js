@@ -5,16 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store/auth-slice";
 import { useNavigate } from "react-router";
-// import PageAnimations from "../utils/PageAnimations";
 import { AnimatePresence, motion } from "framer-motion";
-
+import { register } from "../store/auth-slice";
 const RegisterUser = () => {
   const [shownPassword, setShownPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const error = useSelector((state) => state.auth.error);
+  const [showError, setShowError] = useState(false);
   console.log(isLoggedIn);
 
   const toggleShowPassword = () => {
@@ -64,7 +64,7 @@ const RegisterUser = () => {
             return errors;
           }}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            // console.log(values);
+            setSubmitting(true);
 
             const userInfo = {
               userName: values.name,
@@ -73,12 +73,10 @@ const RegisterUser = () => {
               userId: new Date().toUTCString,
             };
 
-            dispatch(authActions.registerUser(userInfo));
-            setTimeout(() => {
-              navigate("/");
-              setSubmitting(false);
-              resetForm();
-            }, 400);
+            dispatch(register(userInfo));
+            resetForm();
+            setSubmitting(false);
+            navigate("/");
           }}
         >
           {({ isSubmitting }) => (
@@ -114,6 +112,7 @@ const RegisterUser = () => {
                   name="email"
                   component="div"
                 />
+                {showError && <div className={styles.error}>{error}</div>}
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.labels} htmlFor="password1">
