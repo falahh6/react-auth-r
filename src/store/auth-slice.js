@@ -3,6 +3,7 @@ import axios from "axios";
 const authInitialState = {
   isLoggedIn: false,
   error: "",
+  currentlyLoggedInUserKey: "",
 };
 
 export const login = createAsyncThunk("authslice/login", async (userInfo) => {
@@ -16,9 +17,19 @@ export const login = createAsyncThunk("authslice/login", async (userInfo) => {
       u.userPassword === userInfo.userPassword
   );
 
+  const userKey = Object.keys(fetchedUsers).find((key) => {
+    const u = fetchedUsers[key];
+    return (
+      u.userEmail === userInfo.userEmail &&
+      u.userPassword === userInfo.userPassword
+    );
+  });
+
+  console.log(userKey, user);
+
   console.log("user checked");
   if (user) {
-    return true;
+    return userKey;
   } else {
     throw new Error("Invalid Credentials");
   }
@@ -53,6 +64,30 @@ export const register = createAsyncThunk(
   }
 );
 
+// export const addResources = createAsyncThunk(
+//   "authslice/addResources",
+//   async (data) => {
+//     const { message, CurrentUserKey } = data;
+//     try {
+//       const response = await axios.patch(
+//         "https://users-6b489-default-rtdb.firebaseio.com/NewUsers.json/" +
+//           CurrentUserKey +
+//           "/message",
+//         message
+//       );
+
+//       if (!response.data) {
+//         throw new Error("Cannot store your message!");
+//       } else {
+//         console.log(response);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//       throw error;
+//     }
+//   }
+// );
+
 const AuthSlice = createSlice({
   name: "authslice",
   initialState: authInitialState,
@@ -63,8 +98,10 @@ const AuthSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state) => {
+      .addCase(login.fulfilled, (state, action) => {
         state.isLoggedIn = true;
+        state.currentlyLoggedInUserKey = action.payload;
+        // console.log(action.payload);
         console.log("Authenticated!");
       })
       .addCase(login.rejected, (state, action) => {
@@ -79,6 +116,12 @@ const AuthSlice = createSlice({
         state.error = "email already exist";
         console.log(action.error.message);
       });
+    // .addCase(addResources.fulfilled, () => {
+    //   console.log("successfully stored data");
+    // })
+    // .addCase(addResources.rejected, (state, action) => {
+    //   console.log(action.error.message);
+    // });
   },
 });
 

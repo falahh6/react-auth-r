@@ -4,9 +4,9 @@
     color: rgb(108, 108, 108);
 }
 
-.a button {
+.a {
     padding: 0.5rem 1rem;
-    margin: auto;
+    /* margin: auto; */
     display: flex;
     justify-content: center;
     border-radius: 50px;
@@ -19,6 +19,52 @@
 }
 
 .a {
-    text-align: center;
+    /* text-align: center; */
     text-decoration: none;
+    display: flex;
+    margin: none;
+    margin-top: 0.5rem;
+}
+
+.a:hover {
+    background-color: white;
+    cursor: pointer;
+}
+
+.formGroup {
+    height: 30vh;
+    margin: auto;
+}
+
+.formLabel {
+    font-size: 14px;
+    margin-bottom: 2rem;
+}
+
+.formControl {
+    margin-top: 0.5rem;
+    height: fit-content;
+    width: 100%;
+    border-radius: 4px;
+    border: none;
+    padding: 0.5rem;
+    outline: none;
+}
+
+.formControl:focus-visible {
+    box-shadow: 0 3px 6px rgba(200, 200, 200, 0.16), 0 3px 6px rgba(0, 123, 255, 0.23);
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    box-shadow: 0 3px 6px rgba(0, 123, 255, 0.16), 0 3px 6px rgba(0, 123, 255, 0.23);
+    width: 40%;
+    margin: auto;
+    padding: 1rem;
+    border-radius: 0.6rem;
+    margin-top: 8rem;
+    background-color: rgb(235, 235, 235);
+    height: 14rem;
 }
